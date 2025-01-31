@@ -1,8 +1,8 @@
 {
   "scripts": {
     "test": "jest",
-    "lint": "prettier --check . && eslint src",
-    "lint:fix": "prettier --write . && eslint src --fix",
+    "lint": "prettier --check src && eslint src",
+    "lint:fix": "prettier --write . && eslint . --fix",
     "start": "webpack serve --mode development",
     "build": "webpack --mode production",
     "prepare": "husky install"
