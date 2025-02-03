@@ -1,29 +1,27 @@
-import "../styles/fieldSize.css";
 import { cellField } from "./cellField";
 
 export function fieldSize(
   div: HTMLHeadElement,
   grid: HTMLDivElement,
-  field: Array<number[]>,
-): Array<number[]> {
+  size: number,
+) {
   const fieldSize: HTMLDivElement = document.createElement("div");
   const plusSize: HTMLButtonElement = document.createElement("button");
   const minusSize: HTMLButtonElement = document.createElement("button");
-  const fieldContainer: HTMLDivElement = document.createElement("div");
-  let size: number = 10;
+  const headerContainer: HTMLDivElement = document.createElement("div");
   let sizePx: number = 50;
 
   plusSize.textContent = "+";
   minusSize.textContent = "-";
-  plusSize.className = "buttonSize";
-  minusSize.className = "buttonSize";
+  plusSize.className = "header";
+  minusSize.className = "header";
   fieldSize.textContent = `${size}`;
   fieldSize.className = "fieldSize";
-  fieldContainer.className = "fieldContainer";
+  headerContainer.className = "headerContainer";
 
-  fieldContainer.append(minusSize);
-  fieldContainer.append(fieldSize);
-  fieldContainer.append(plusSize);
+  headerContainer.append(minusSize);
+  headerContainer.append(fieldSize);
+  headerContainer.append(plusSize);
 
   const cell: HTMLDivElement | null = document.querySelector(".cell");
 
@@ -82,7 +80,5 @@ export function fieldSize(
     }
   });
 
-  div.append(fieldContainer);
-
-  return field;
+  div.append(headerContainer);
 }

@@ -1,4 +1,4 @@
-.buttonSize {
+.header {
   padding: 10px 20px;
   font-size: 20px;
   background-color: #007bff;
@@ -8,7 +8,7 @@
   cursor: pointer;
 }
 
-.buttonSize:hover {
+.header:hover {
   background-color: #0056b3;
 }
 
@@ -17,8 +17,12 @@
   font-size: 20px;
 }
 
-.fieldContainer {
+.headerContainer {
   display: flex;
   justify-content: center;
   padding: 10px;
+}
+
+.startButton {
+  margin-left: 50px;
 }
