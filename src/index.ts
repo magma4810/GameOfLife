@@ -1,7 +1,8 @@
 import { cellField } from "./cellField";
-import { header } from "./header";
 import { nextGeneration } from "./nextGeneration";
 import { start } from "./start";
+import { fieldSize } from "./fieldSize";
+import "../styles/header.css";
 export function sum(x1: number, x2: number): number {
   return x1 + x2;
 }
@@ -9,7 +10,7 @@ export function sum(x1: number, x2: number): number {
 function main() {
   const grid: HTMLDivElement = document.createElement("div");
   const headerHtml: HTMLHeadElement = document.createElement("header");
-  const size: number = 10;
+  let size: number = 10;
   let field: number[][] = Array.from({ length: size }, () =>
     Array(size).fill(0),
   );
@@ -18,13 +19,25 @@ function main() {
   document.body.append(headerHtml);
   document.body.append(grid);
   cellField(grid, size, field);
-  header(headerHtml, grid, size);
-  // Передаем функцию для изменения gameIsRunning
+  fieldSize(
+    headerHtml,
+    grid,
+    (value: number) => {
+      size = value;
+    },
+    size,
+    (newField: Array<number[]>) => {
+      field = newField;
+    },
+    field,
+  );
   start((value: boolean) => {
     gameIsRunning = value;
   });
   setInterval(() => {
+    console.log(size);
     console.log(gameIsRunning);
+    console.log(field);
     if (gameIsRunning) {
       field = nextGeneration(field, size);
       cellField(grid, size, field);
