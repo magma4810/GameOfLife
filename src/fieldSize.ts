@@ -3,10 +3,9 @@ import { cellField } from "./cellField";
 export function fieldSize(
   div: HTMLHeadElement,
   grid: HTMLDivElement,
-  setSize: (value: number) => void,
   size: number,
-  setField: (newField: Array<number[]>) => void,
   field: Array<number[]>,
+  updateSizeAndField: (newSize: number, newField: Array<number[]>) => void,
 ) {
   const fieldSize: HTMLDivElement = document.createElement("div");
   const plusSize: HTMLButtonElement = document.createElement("button");
@@ -30,9 +29,8 @@ export function fieldSize(
 
   plusSize.addEventListener("click", () => {
     size++;
-    setSize(size);
     field = Array.from({ length: size }, () => Array(size).fill(0));
-    setField(field);
+    updateSizeAndField(size, field);
     grid.textContent = "";
     if (grid && cell) {
       if (size < 70) {
@@ -52,12 +50,13 @@ export function fieldSize(
         fieldSize.textContent = `MAX SIZE 60`;
       }
       cellField(grid, size, field);
+      return [size, field];
     }
   });
   minusSize.addEventListener("click", () => {
     size--;
     field = Array.from({ length: size }, () => Array(size).fill(0));
-    setField(field);
+    updateSizeAndField(size, field);
     grid.textContent = "";
     if (grid && cell) {
       if (size < 70) {

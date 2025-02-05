@@ -1,4 +1,10 @@
-export function start(setGameIsRunning: (value: boolean) => void) {
+import { nextGeneration } from "./nextGeneration";
+import { cellField } from "./cellField";
+import { isAnyoneAlive } from "./isAnyoneAlive";
+
+export function initialStart(
+  updateGameIsRunning: (gameIsRunning: boolean) => void,
+) {
   const startButton: HTMLButtonElement = document.createElement("button");
   const headerContainer: HTMLDivElement | null =
     document.querySelector(".headerContainer");
@@ -8,6 +14,26 @@ export function start(setGameIsRunning: (value: boolean) => void) {
     headerContainer.appendChild(startButton);
   }
   startButton.addEventListener("click", () => {
-    setGameIsRunning(true);
+    updateGameIsRunning(true);
   });
+}
+export function startGame(
+  field: Array<number[]>,
+  size: number,
+  grid: HTMLDivElement,
+  updateGameIsRunning: (isRunning: boolean) => void,
+) {
+  const startButton: HTMLButtonElement | null =
+    document.querySelector(".startButton");
+  if (startButton) startButton.textContent = "STOP";
+  const timer = setInterval(() => {
+    if (isAnyoneAlive(field)) {
+      field = nextGeneration(field, size);
+      cellField(grid, size, field);
+    } else {
+      clearInterval(timer);
+      if (startButton) startButton.textContent = "START";
+      updateGameIsRunning(false); // Устанавливаем gameIsRunning в false
+    }
+  }, 1000);
 }
