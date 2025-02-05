@@ -9,12 +9,12 @@ export function nextGeneration(
   for (let x = 0; x < field.length; x++) {
     for (let y = 0; y < field[0].length; y++) {
       lifeCell = getLifeCell(x, y, field, size);
-      if (lifeCell === 3) {
+      if (field[x][y] && (lifeCell === 2 || lifeCell === 3)) {
         newField[x][y] = 1;
-      } else if (newField[x][y] === 1 && lifeCell === 2) {
-        newField[x][y] = 1;
-      } else if (lifeCell > 3 || lifeCell < 2) {
-        newField[x][y] = 0;
+      } else {
+        if (lifeCell === 3) {
+          newField[x][y] = 1;
+        }
       }
     }
   }

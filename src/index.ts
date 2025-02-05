@@ -1,6 +1,8 @@
 import { cellField } from "./cellField";
-import { initialStart, startGame } from "./start";
+import { initialStart } from "./start";
 import { fieldSize } from "./fieldSize";
+import { isAnyoneAlive } from "./isAnyoneAlive";
+import { nextGeneration } from "./nextGeneration";
 
 import "../styles/header.css";
 export function sum(x1: number, x2: number): number {
@@ -23,14 +25,32 @@ function main() {
     size = newSize;
     field = newField;
   });
-  initialStart((newGameIsRunning: boolean) => {
-    gameIsRunning = newGameIsRunning;
-    if (gameIsRunning) {
-      startGame(field, size, grid, (isRunning) => {
-        gameIsRunning = isRunning;
-      });
-    }
-  });
+  initialStart();
+
+  const startButton = document.querySelector(".startButton");
+
+  if (startButton)
+    startButton.addEventListener("click", () => {
+      gameIsRunning = !gameIsRunning;
+      const timer = setInterval(() => {
+        if (gameIsRunning) {
+          if (isAnyoneAlive(field)) {
+            field = nextGeneration(field, size);
+            cellField(grid, size, field);
+            startButton.textContent = "STOP";
+            gameIsRunning = true;
+          } else {
+            clearInterval(timer);
+            if (startButton) startButton.textContent = "START";
+            gameIsRunning = false;
+          }
+        } else {
+          startButton.textContent = "START";
+          gameIsRunning = false;
+          clearInterval(timer);
+        }
+      }, 1000);
+    });
 }
 
 main();
